@@ -4,8 +4,10 @@ import json
 from pprint import pprint
 import requests
 
-username = "TDATHDiscord"
-password = "TDATHDiscord123"
+
+
+username = open("../memeusername.txt").read()
+password = open("../memepassword.txt").read()
 
 
 bot = commands.Bot("?")
@@ -40,7 +42,7 @@ class Meme():
     async def meme(self, ctx, *, message=None):
         
         if message == None or message == "help" or message == "?":
-            await self.bot.say("Enter in the format **?meme ID/text1/text2**. \nMeme ID list: https://api.imgflip.com/popular_meme_ids")
+            await self.bot.say("Enter in the format `!meme ID/text1/text2`. \nMeme ID list: https://api.imgflip.com/popular_meme_ids")
             return
         
         split = message.split("/", 3)
@@ -61,14 +63,13 @@ class Meme():
                    "text1" : split[2]}
         r = requests.post("https://api.imgflip.com/caption_image", data=payload)
         data = json.loads(r.text)
-        await self.bot.say("{0} created {1}".format(mention, data["data"]["page_url"]))
+        await self.bot.say("{0} created {1} using `!meme`".format(mention, data["data"]["page_url"]))
         await self.bot.delete_message(ctx.message)
 
     @commands.command()
     async def memelist(self):
         string = "```py\nFull list: https://api.imgflip.com/popular_meme_ids\n\n"
         for k in memes.keys():
-            print(memes[k])
             string = string + k + " - " + str(memes[k]["key-words"][0]) + "\n"
 
         string = string + "```"
