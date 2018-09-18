@@ -59,7 +59,7 @@ class Roles():
             
             await self.bot.add_roles(ctx.message.author, roleObj)
 
-        return await self.bot.delete_message(ctx.message)                
+        return await self.bot.send_message(ctx.message.channel, "Role `{}` added to {}.".format(rolename, ctx.message.author.mention))            
     
 
 def setup(bot):
